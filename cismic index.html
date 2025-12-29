@@ -1,0 +1,582 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>CISMIC</title>
+  <meta name="description" content="CISMIC centralise les outils du centre et offre une vision départementale aux responsables : habillement, atelier, pharmacie, patrimoine, FMA, etc." />
+
+  <!-- ✅ Favicon -->
+  <link rel="icon" href="https://raw.githubusercontent.com/fred1414/accueil-cs/refs/heads/main/favicon.ico" type="image/x-icon" />
+
+  <style>
+    :root{
+      --blue:#1f66ff;
+      --blue2:#1d3f73;
+      --red:#ff3b3b;
+      --red2:#d43d3d;
+
+      --bg:#f6f8ff;
+      --ink:#0b1020;
+      --muted:#344055;
+
+      --card:#ffffffcc;
+      --line:#e6e9f5;
+      --shadow: 0 18px 60px rgba(16, 24, 40, .12);
+      --radius:18px;
+
+      --headerH: 86px;
+    }
+
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    html{scroll-behavior:smooth}
+
+    /* ✅ FOND CONTINU (sans coupure) */
+    body{
+      margin:0;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Inter, Arial;
+      color:var(--ink);
+
+      background:
+        radial-gradient(1200px 700px at 10% 0%, rgba(31,102,255,.28), transparent 60%),
+        radial-gradient(1100px 750px at 100% 10%, rgba(255,59,59,.22), transparent 60%),
+        radial-gradient(900px 650px at 35% 120%, rgba(31,102,255,.18), transparent 60%),
+        linear-gradient(180deg, #ffffff 0%, #f6f8ff 45%, #ffffff 100%);
+      background-attachment: fixed, fixed, fixed, fixed;
+
+      overflow-x:hidden;
+    }
+
+    /* ✅ Overlay doux global pour lisser le rendu */
+    body::before{
+      content:"";
+      position:fixed;
+      inset:0;
+      pointer-events:none;
+      background: linear-gradient(135deg, rgba(31,102,255,.08), rgba(255,59,59,.06));
+      opacity:.9;
+      z-index:-1;
+    }
+
+    section{scroll-margin-top: calc(var(--headerH) + 14px);}
+    a{color:inherit;text-decoration:none}
+    .container{width:min(1120px, calc(100% - 40px)); margin:0 auto}
+
+    /* NAV */
+    header{
+      position:fixed; top:0; left:0; right:0; z-index:999;
+      background:rgba(255,255,255,.82);
+      backdrop-filter: blur(12px);
+      border-bottom:1px solid var(--line);
+      box-shadow: 0 10px 30px rgba(16, 24, 40, .06);
+    }
+    .nav{
+      position:relative;
+      display:flex; align-items:center; justify-content:space-between;
+      padding:14px 0;
+      gap:14px;
+      height: var(--headerH);
+    }
+    .brand{display:flex; align-items:center; gap:12px; font-weight:900; letter-spacing:.2px;}
+    .brand img{
+      height:74px; /* logo gros */
+      width:auto;
+      border-radius:14px;
+    }
+
+    nav ul{margin:0; padding:0; list-style:none; display:flex; gap:10px; align-items:center;}
+    nav a{
+      font-size:14px; color:var(--muted);
+      padding:9px 10px; border-radius:12px;
+      transition:.18s ease; font-weight:800;
+    }
+    nav a:hover{
+      color:var(--ink);
+      background: linear-gradient(135deg, rgba(31,102,255,.12), rgba(255,59,59,.10));
+      border:1px solid rgba(31,102,255,.18);
+      padding:8px 9px;
+    }
+
+    .actions{display:flex; gap:10px; align-items:center}
+    .btn{
+      display:inline-flex; align-items:center; justify-content:center;
+      padding:10px 14px; border-radius:14px;
+      border:1px solid rgba(31,102,255,.18);
+      background:rgba(255,255,255,.85);
+      color:var(--ink); font-weight:900;
+      transition:.18s ease; cursor:pointer;
+      box-shadow: 0 12px 30px rgba(16, 24, 40, .08);
+      user-select:none;
+    }
+    .btn:hover{transform: translateY(-1px); filter:saturate(1.03)}
+
+    /* HERO */
+    main{padding-top: var(--headerH);}
+    .hero{padding:56px 0 18px; position:relative;}
+    .title{
+      margin:14px 0 10px;
+      font-size:44px;
+      line-height:1.05;
+      letter-spacing:-1px;
+    }
+    .grad{
+      background: linear-gradient(135deg, var(--blue2) 0%, var(--blue) 40%, var(--red2) 78%, var(--red) 100%);
+      -webkit-background-clip:text;
+      background-clip:text;
+      color:transparent;
+    }
+    .subtitle{
+      margin:0 0 18px;
+      color:var(--muted);
+      font-size:16px;
+      line-height:1.7;
+      max-width:72ch;
+    }
+    .hero-grid{
+      margin-top:18px;
+      display:grid;
+      grid-template-columns: 1.2fr .8fr;
+      gap:16px;
+      align-items:stretch;
+    }
+    .card{
+      background: var(--card);
+      border:1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+    }
+    .box{padding:18px}
+
+    .kpi{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap:10px;
+      margin-top:10px;
+    }
+    .chip{
+      padding:12px;
+      border-radius:16px;
+      border:1px solid rgba(31,102,255,.14);
+      background: linear-gradient(135deg, rgba(31,102,255,.10), rgba(255,59,59,.07));
+    }
+    .chip strong{display:block; font-size:14px}
+    .chip span{display:block; margin-top:4px; font-size:13px; color:var(--muted); line-height:1.45}
+
+    /* SECTIONS */
+    section{padding:46px 0}
+    .section-title{margin:0 0 8px; font-size:22px; letter-spacing:-.3px}
+    .section-desc{margin:0 0 18px; color:var(--muted); line-height:1.65}
+    .grid-3{display:grid; grid-template-columns: repeat(3, 1fr); gap:14px}
+
+    .feat{
+      padding:16px;
+      border-radius: var(--radius);
+      border:1px solid var(--line);
+      background: rgba(255,255,255,.9);
+      box-shadow: 0 10px 30px rgba(16, 24, 40, .06);
+      transition:.18s ease;
+    }
+    .feat:hover{
+      transform: translateY(-2px);
+      background: linear-gradient(135deg, rgba(31,102,255,.08), rgba(255,59,59,.06));
+      border-color: rgba(31,102,255,.20);
+    }
+    .pill{
+      display:inline-flex; align-items:center; gap:8px;
+      font-size:12px; font-weight:900;
+      padding:7px 10px;
+      border-radius:999px;
+      border:1px solid rgba(31,102,255,.18);
+      background: linear-gradient(135deg, rgba(31,102,255,.12), rgba(255,59,59,.10));
+      color:#0b1020;
+    }
+    .feat h4{margin:10px 0 6px; font-size:15px}
+    .feat p{margin:0; font-size:13px; color:var(--muted); line-height:1.6}
+
+    .split{display:grid; grid-template-columns: 1fr 1fr; gap:16px; align-items:start}
+    .list{margin:0; padding:0; list-style:none; display:grid; gap:10px}
+    .list li{
+      display:flex; gap:10px; align-items:flex-start;
+      padding:12px;
+      border-radius:16px;
+      border:1px solid var(--line);
+      background: rgba(255,255,255,.9);
+    }
+    .dot{
+      width:10px;height:10px;border-radius:999px;
+      margin-top:6px;
+      background: linear-gradient(135deg, var(--blue), var(--red));
+      flex:0 0 10px;
+    }
+
+    /* CONTACT */
+    .contact{display:grid; grid-template-columns: 1.1fr .9fr; gap:16px}
+    form{display:grid; gap:10px}
+    .two{display:grid; grid-template-columns: 1fr 1fr; gap:10px}
+    label{font-size:13px; font-weight:900; color:rgba(11,16,32,.85)}
+    input, textarea{
+      width:100%;
+      padding:12px 12px;
+      border-radius:14px;
+      border:1px solid var(--line);
+      background: rgba(255,255,255,.98);
+      color:var(--ink);
+      outline:none;
+      font-size:14px;
+    }
+    textarea{min-height:140px; resize:vertical}
+    .small{font-size:12px; color:rgba(52,64,85,.85); line-height:1.5}
+
+    footer{
+      padding:26px 0 36px;
+      border-top:1px solid var(--line);
+      color:rgba(52,64,85,.85);
+      font-size:13px;
+      text-align:center;
+    }
+
+    /* MOBILE */
+    .menu-toggle{display:none}
+    @media (max-width: 920px){
+      :root{--headerH: 92px;}
+      .hero-grid{grid-template-columns:1fr}
+      .grid-3{grid-template-columns:1fr}
+      .split{grid-template-columns:1fr}
+      .contact{grid-template-columns:1fr}
+      .two{grid-template-columns:1fr}
+      .title{font-size:36px}
+
+      nav ul{display:none}
+      .menu-toggle{display:inline-flex}
+      .nav-open nav ul{
+        display:flex; flex-direction:column; gap:8px;
+        position:absolute; left:20px; right:20px; top:92px;
+        padding:12px;
+        background: rgba(255,255,255,.97);
+        border:1px solid var(--line);
+        border-radius:16px;
+      }
+      .brand img{height:70px;}
+    }
+  </style>
+</head>
+
+<body>
+  <header id="top">
+    <div class="container">
+      <div class="nav" id="nav">
+        <a class="brand" href="#top" aria-label="Retour en haut">
+          <img src="https://i.postimg.cc/LsB40JQq/logo-cismic.png" alt="Logo CISMIC" />
+        </a>
+
+        <nav aria-label="Navigation principale">
+          <ul>
+            <li><a href="#a-propos">C’est quoi ?</a></li>
+            <li><a href="#double-vision">Centre & Département</a></li>
+            <li><a href="#modules">Modules</a></li>
+            <li><a href="#contact">Contact</a></li>
+          </ul>
+        </nav>
+
+        <div class="actions">
+          <a class="btn menu-toggle" href="#menu" id="menuBtn" aria-label="Ouvrir le menu">☰</a>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <!-- HERO -->
+    <div class="hero">
+      <div class="container">
+        <h1 class="title">
+          Une interface <span class="grad">simple</span> pour gérer le quotidien d'un CIS<br/>
+          et une <span class="grad">vision départementale</span> pour piloter.
+        </h1>
+
+        <p class="subtitle">
+          CISMIC centralise les informations et outils d’un Centre d'Incendie et de Secours (consignes, formulaires, suivi…)
+          et permet aussi aux responsables d’avoir une vision multi-casernes pour suivre les demandes et l’activité
+          (habillement, atelier mécanique, matériel non roulant, pharmacie, patrimoine, FMA...).
+        </p>
+
+        <div class="hero-grid">
+          <div class="card box">
+            <h2 class="section-title" style="margin:0 0 6px">Ce que CISMIC résout</h2>
+            <p class="section-desc" style="margin-bottom:12px">
+              Moins de dispersion, plus de suivi, et une information accessible rapidement.
+            </p>
+
+            <div class="kpi">
+              <div class="chip">
+                <strong>Centraliser</strong>
+                <span>Documents, consignes et liens utiles au même endroit.</span>
+              </div>
+              <div class="chip">
+                <strong>Fluidifier</strong>
+                <span>Demandes via formulaires, avec historique et traçabilité.</span>
+              </div>
+              <div class="chip">
+                <strong>Suivre</strong>
+                <span>Tableaux de suivi par module (états, demandes, traitement).</span>
+              </div>
+              <div class="chip">
+                <strong>Piloter</strong>
+                <span>Vision départementale : toutes les casernes, mêmes règles.</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="card box">
+            <h2 class="section-title" style="margin:0 0 6px">L’idée en une phrase</h2>
+            <p class="section-desc" style="margin:0">
+              Une demande part d’un centre, est traitée par le bon service support, et on suit son avancement
+              jusqu’à la clôture — avec historique et traçabilité.
+		Tous les CIS travaillent sur une base homogène avec les mêmes démarches.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- A PROPOS -->
+    <section id="a-propos">
+      <div class="container">
+        <h2 class="section-title">C’est quoi CISMIC ?</h2>
+        <p class="section-desc">
+          CISMIC est une plateforme de gestion et d’organisation qui regroupe les informations, les outils et les demandes
+          au même endroit. Le but : rendre l’essentiel accessible en quelques clics, avec une interface claire.
+        </p>
+
+        <div class="split">
+          <div class="card box">
+            <h3 style="margin:0 0 10px">Concrètement</h3>
+            <ul class="list">
+              <li><span class="dot"></span><span>Un <strong>point d’entrée unique</strong> (liens, docs, modules).</span></li>
+              <li><span class="dot"></span><span>Des <strong>formulaires</strong> pour standardiser les demandes.</span></li>
+              <li><span class="dot"></span><span>Des <strong>suivis</strong> (traitement, historique, état d’avancement).</span></li>
+              <li><span class="dot"></span><span>Une lecture <strong>par centre</strong> et <strong>par département</strong>.</span></li>
+            </ul>
+          </div>
+
+          <div class="card box">
+            <h3 style="margin:0 0 10px">Objectif</h3>
+            <ul class="list">
+              <li><span class="dot"></span><span><strong>Gagner du temps</strong> : moins de recherches, moins d’allers-retours.</span></li>
+              <li><span class="dot"></span><span><strong>Éviter les oublis</strong> : demandes structurées et traçables.</span></li>
+              <li><span class="dot"></span><span><strong>Améliorer la coordination</strong> : mêmes infos pour tous.</span></li>
+	      <li><span class="dot"></span><span><strong>Facilité des démarches</strong> : Intelligence Artificielle disponible.</span></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- DOUBLE VISION -->
+    <section id="double-vision">
+      <div class="container">
+        <h2 class="section-title">Deux niveaux : Centre & Département</h2>
+        <p class="section-desc">
+          CISMIC fonctionne en “double lecture” :
+          <strong>une vision locale</strong> (au centre) et <strong>une vision départementale</strong> (pour les responsables).
+        </p>
+
+        <div class="grid-3">
+          <div class="feat">
+            <span class="pill">🏠 Vision centre</span>
+            <h4>Gestion du quotidien</h4>
+            <p>
+              Chaque caserne accède à ses infos et à ses demandes : consignes, formulaires,
+              suivi des moyens, communication interne.
+            </p>
+          </div>
+
+          <div class="feat">
+            <span class="pill">🏛️ Vision départementale</span>
+            <h4>Pilotage multi-casernes</h4>
+            <p>
+              Les responsables voient l’ensemble des centres pour suivre l’activité et traiter les demandes
+              à l’échelle départementale.
+            </p>
+          </div>
+
+          <div class="feat">
+            <span class="pill">🧾 Traçabilité</span>
+            <h4>Suivi & historique</h4>
+            <p>
+              Les demandes sont structurées, suivies et historisées : qui a demandé, quand, où, et où ça en est.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- MODULES -->
+    <section id="modules">
+      <div class="container">
+        <h2 class="section-title">Modules adaptés aux services supports</h2>
+        <p class="section-desc">
+          Exemple de services qui bénéficient de la vision départementale (accès à toutes les casernes) :
+        </p>
+
+        <div class="grid-3">
+          <div class="feat">
+            <span class="pill">🧤 Habillement</span>
+            <h4>Suivi des demandes</h4>
+            <p>Visualiser et traiter les demandes de dotation pour l’ensemble des centres.</p>
+          </div>
+          <div class="feat">
+            <span class="pill">🔧 Atelier mécanique</span>
+            <h4>Traitement & planification</h4>
+            <p>Suivre les signalements, planifier les interventions, garder l’historique.</p>
+          </div>
+          <div class="feat">
+            <span class="pill">🧰 Matériel non roulant</span>
+            <h4>Inventaire & besoins</h4>
+            <p>Demandes, état du matériel, suivi des remplacements et besoins par centre.</p>
+          </div>
+          <div class="feat">
+            <span class="pill">💊 Pharmacie</span>
+            <h4>Demandes & traçabilité</h4>
+            <p>Centraliser les demandes, suivre les validations et l’approvisionnement.</p>
+          </div>
+          <div class="feat">
+            <span class="pill">🏢 Patrimoine</span>
+            <h4>Suivi des sites</h4>
+            <p>Demandes liées aux bâtiments, travaux, maintenance et historique.</p>
+          </div>
+          <div class="feat">
+            <span class="pill">🧑‍🏫 FMA</span>
+            <h4>Suivi organisationnel</h4>
+            <p>Visibilité transversale et suivi des éléments gérés à l’échelle départementale.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section id="contact">
+      <div class="container">
+        <h2 class="section-title">Contact</h2>
+        <p class="section-desc">
+          Tous les champs sont obligatoires. Le bouton ouvre un email prérempli.
+        </p>
+
+        <div class="contact">
+          <div class="card box">
+            <h3 style="margin:0 0 10px">Envoyer un message</h3>
+
+            <form id="contactForm">
+              <!-- ✅ Inversion : Nom puis Prénom -->
+              <div class="two">
+                <div>
+                  <label for="lastName">Nom*</label>
+                  <input id="lastName" type="text" required />
+                </div>
+                <div>
+                  <label for="firstName">Prénom*</label>
+                  <input id="firstName" type="text" required />
+                </div>
+              </div>
+
+              <div class="two">
+                <div>
+                  <label for="email">E-mail*</label>
+                  <input id="email" type="email" required />
+                </div>
+                <div>
+                  <label for="phone">Téléphone*</label>
+                  <input id="phone" type="tel" required />
+                </div>
+              </div>
+
+              <div class="two">
+                <div>
+                  <label for="role">Fonction*</label>
+                  <input id="role" type="text" required />
+                </div>
+                <div>
+                  <label for="org">Organisation*</label>
+                  <input id="org" type="text" required />
+                </div>
+              </div>
+
+              <div>
+                <label for="message">Message*</label>
+                <textarea id="message" required></textarea>
+              </div>
+
+              <button class="btn" type="submit">Envoyer</button>
+              
+            </form>
+          </div>
+
+          <div class="card box">
+            <h3 style="margin:0 0 10px">Coordonnées</h3>
+            <ul class="list">
+              <li><span class="dot"></span><span><strong>Email :</strong> <span id="mailShown">contact@cismic.fr</span></span></li>
+              <li><span class="dot"></span><span><strong>Téléphone :</strong> <span id="phoneShown">06.19.36.39.43</span></span></li>
+	      <li><span class="dot"></span><span><strong>Adresse :</strong> <span id="phoneShown">114 rue neuve - 30920 Codognan</span></span></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container">
+      <div>© <span id="year"></span> CISMIC</div>
+    </div>
+  </footer>
+
+  <script>
+    // Menu mobile
+    const nav = document.getElementById("nav");
+    const menuBtn = document.getElementById("menuBtn");
+    menuBtn?.addEventListener("click", (e) => {
+      e.preventDefault();
+      nav.classList.toggle("nav-open");
+    });
+    document.addEventListener("click", (e) => {
+      const isInside = nav.contains(e.target);
+      if (!isInside) nav.classList.remove("nav-open");
+    });
+
+    // Contact (mailto)
+    const CONTACT_EMAIL = "contact@cismic.fr";
+    const CONTACT_PHONE = "06.19.36.39.43";
+    document.getElementById("mailShown").textContent = CONTACT_EMAIL;
+    document.getElementById("phoneShown").textContent = CONTACT_PHONE;
+
+    document.getElementById("contactForm")?.addEventListener("submit", (e) => {
+      e.preventDefault();
+
+      const lastName  = encodeURIComponent(document.getElementById("lastName").value.trim());
+      const firstName = encodeURIComponent(document.getElementById("firstName").value.trim());
+      const email     = encodeURIComponent(document.getElementById("email").value.trim());
+      const phone     = encodeURIComponent(document.getElementById("phone").value.trim());
+      const role      = encodeURIComponent(document.getElementById("role").value.trim());
+      const org       = encodeURIComponent(document.getElementById("org").value.trim());
+      const message   = encodeURIComponent(document.getElementById("message").value.trim());
+
+      const subject = encodeURIComponent("Contact — CISMIC");
+      const body =
+        `Bonjour,%0D%0A%0D%0A` +
+        `Nom : ${lastName}%0D%0A` +
+        `Prénom : ${firstName}%0D%0A` +
+        `E-mail : ${email}%0D%0A` +
+        `Téléphone : ${phone}%0D%0A` +
+        `Fonction : ${role}%0D%0A` +
+        `Organisation : ${org}%0D%0A%0D%0A` +
+        `Message :%0D%0A${message}%0D%0A%0D%0A` +
+        `— Envoyé depuis la page de présentation CISMIC`;
+
+      window.location.href = `mailto:${CONTACT_EMAIL}?subject=${subject}&body=${body}`;
+    });
+
+    document.getElementById("year").textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
